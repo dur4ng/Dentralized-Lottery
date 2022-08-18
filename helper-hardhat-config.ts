@@ -1,22 +1,24 @@
-import { BigNumber } from "ethers";
+import { BigNumber } from "ethers"
 
 type NetworkConfigItem = {
-  name: string;
-  fundAmount: BigNumber;
-  fee?: string;
-  keyHash?: string;
-  interval?: string;
-  linkToken?: string;
-  vrfCoordinator?: string;
-  keepersUpdateInterval?: string;
-  oracle?: string;
-  jobId?: string;
-  ethUsdPriceFeed?: string;
-};
+  name: string
+  fundAmount: BigNumber
+  fee?: string
+  keyHash?: string
+  interval?: string
+  linkToken?: string
+  vrfCoordinator?: string
+  vrfCoordinatorSubscriptionId?: string
+  keepersUpdateInterval?: string
+  oracle?: string
+  jobId?: string
+  ethUsdPriceFeed?: string
+  callbackGasLimit?: string
+}
 
 type NetworkConfigMap = {
-  [chainId: string]: NetworkConfigItem;
-};
+  [chainId: string]: NetworkConfigItem
+}
 
 export const networkConfig: NetworkConfigMap = {
   default: {
@@ -37,6 +39,7 @@ export const networkConfig: NetworkConfigMap = {
     fundAmount: BigNumber.from("1000000000000000000"),
     keepersUpdateInterval: "30",
     ethUsdPriceFeed: "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",
+    callbackGasLimit: "500000",
   },
   42: {
     name: "kovan",
@@ -55,11 +58,13 @@ export const networkConfig: NetworkConfigMap = {
     keyHash:
       "0xd89b2bf150e3b9e13446986e571fb9cab24b13cea0a43ea20a6049a85cc807cc",
     vrfCoordinator: "0x6168499c0cFfCaCD319c818142124B7A15E857ab",
+    vrfCoordinatorSubscriptionId: "8815",
     oracle: "0xc57b33452b4f7bb189bb5afae9cc4aba1f7a4fd8",
     jobId: "6b88e0402e5d415eb946e528b8e0c7ba",
     fee: "100000000000000000",
     fundAmount: BigNumber.from("1000000000000000000"),
     keepersUpdateInterval: "30",
+    callbackGasLimit: "500000",
   },
   1: {
     name: "mainnet",
@@ -81,7 +86,12 @@ export const networkConfig: NetworkConfigMap = {
     fee: "100000000000000",
     fundAmount: BigNumber.from("100000000000000"),
   },
-};
+}
 
-export const developmentChains: string[] = ["hardhat", "localhost"];
-export const VERIFICATION_BLOCK_CONFIRMATIONS = 6;
+export const developmentChains: string[] = ["hardhat", "localhost"]
+export const VERIFICATION_BLOCK_CONFIRMATIONS = 6
+export const PRICE_DECIMALS = 8
+export const INITIAL_PRICE = "123000000000"
+export const BASE_FEE = "250000000000000000" // 0.25 is this the premium in LINK?
+export const GAS_PRICE_LINK = 1e9 // link per gas, is this the gas lane? // 0.000000001 LINK per gas
+export const FUND_AMOUNT = "1000000000000000000000"

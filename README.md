@@ -1,100 +1,58 @@
-# Hardhat typescript template
+# Decentralized-Lottery
 
-## Hardhat plugins installed
+## Ticket logic
 
-- hardhat-deploy
-- hardhat-gas-reporter
-- hardhat-typechain
-- hardhat-contract-sizer
-- @nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers@^0.3.0-beta.10"
-- "@nomiclabs/hardhat-etherscan": "^3.0.0",
-- "@nomiclabs/hardhat-waffle": "^2.0.1",
+- ticket struct
+  - id
+  - owner
+  - lotteryId
+- Users can buy tickets of the current open game for 10 usd
+- counter of tickets
+- counter of lotteries
 
-```
-AVAILABLE TASKS:
+## Lottery game logic
 
-  accounts              Prints the list of accounts
-  check                 Check whatever you need
-  clean                 Clears the cache and deletes all artifacts
-  compile               Compiles the entire project, building all artifacts
-  console               Opens a hardhat console
-  coverage              Generates a code coverage report for tests
-  deploy                Deploy contracts
-  etherscan-verify      submit contract source code to etherscan
-  export                export contract deployment of the specified network into one file
-  export-artifacts
-  flatten               Flattens and prints contracts and their dependencies
-  fund-link             Funds a contract with LINK
-  gas-reporter:merge
-  help                  Prints this message
-  node                  Starts a JSON-RPC server on top of Hardhat EVM
-  run                   Runs a user-defined script after compiling the project
-  size-contracts        Output the size of compiled contracts
-  sourcify              submit contract source code to sourcify (https://sourcify.dev)
-  test                  Runs mocha tests
-  typechain             Generate Typechain typings for compiled contracts
-  verify                Verifies contract on Etherscan
-```
+- lottery requirements:
+  - two player minimum
+  - interval of 5 min
+- users can join in a lottery pool
+  - if ticket && open game player enters in lottery
+  - else reject transaction
+- Close the lottery:
+  - check requirements
+    - true
+      - change the state of the game to close
+      - choose a winner
+      - send price to the winner
+      - reset data
+      - reopen the game
+    - false
+      - reset the interval
+- wants to save the historical of all winners
 
-```shell
-yarn hardhat deploy
-yarn hardhat deploy --network rinkeby
-yarn hardhat node (run automatly all deploys)
+## Required implementations
 
-yarn hardhat run ./scripts/greet.ts --network localhost
+- use of chainlink VRF for obtain a random number
+- https://docs.chain.link/docs/get-a-random-number/
+- use of chainlink keepers to automatize the game flow
+- https://docs.chain.link/docs/chainlink-keepers/compatible-contracts/
 
-yarn hardhat test (generate gas-report.log)
-yarn hardhat coverage
+## Staging tests
 
-yarn hardhat typechain
+- constract: https://rinkeby.etherscan.io/address/0x4d3a9e952825cecc45953293308d5242a942f7ef#code
 
-yarn prettier '**/*.{json,sol,md}' --check
-yarn prettier '**/*.{json,sol,md}' --write
+- vrf subscription transaction: https://rinkeby.etherscan.io/tx/0x1d3bb308fbc79ef3ecdfe4f81b04beec6e45fd198f276176903f1bf12f987896
+- admin address: 0x78757297e33d89a9b65adec20248b70fcbaac378
+- subcription manager: https://vrf.chain.link/rinkeby/8815
+- balance: 6 LINK
 
-yarn eslint '**/*.{js,ts}'
-yarn eslint '**/*.{js,ts}' --fix
-yarn solhint 'contracts/**/*.sol'
-yarn solhint 'contracts/**/*.sol' --fix
-```
+- UpKeep: need create a time-based upkeep
+  https://keepers.chain.link/new-time-based
 
-## typescript support
+- https://github.com/PatrickAlphaC/hardhat-smartcontract-lottery-fcc/tree/typescript
+- https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.8/mocks/VRFCoordinatorV2Mock.sol
 
-- "@typechain/ethers-v5": "^9.0.0",
-- "@typechain/hardhat": "^4.0.0",
-- "@types/chai": "^4.3.0",
-- "@types/mocha": "^9.0.0",
-- "ts-node": "^10.4.0",
-- "typechain": "^7.0.0",
-- "typescript": "^4.5.4"
-- "@typescript-eslint/eslint-plugin": "^5.30.5",
-- "@typescript-eslint/parser": "^5.30.5",
+# Coin
 
-## linting
-
-- "solhint": "^3.3.6",
-- "eslint": "^8.19.0",
-
-## prettier
-
-- "prettier": "^2.4.1",
-- "prettier-plugin-solidity": "^1.0.0-beta.19",
-
-.prettierrc
-
-```json
-{
-  "tabWidth": 2,
-  "useTabs": false,
-  "semi": false,
-  "singleQuote": false
-}
-```
-
-## testing
-
-- "chai": "^4.3.4",
-- "ethereum-waffle": "^3.4.0",
-
-## Etherscan verification
-
-Configure your own etherscan api key in .env
+It is a EIP-20 contract for the creation of a token for DecentralizedLottery project.
+It implements the ERC-20 contract from openzeppelin.

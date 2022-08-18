@@ -22,8 +22,7 @@ const MAINNET_RPC_URL =
   process.env.ALCHEMY_MAINNET_RPC_URL ||
   "https://eth-mainnet.alchemyapi.io/v2/your-api-key"
 const RINKEBY_RPC_URL =
-  process.env.RINKEBY_RPC_URL ||
-  "https://eth-rinkeby.alchemyapi.io/v2/your-api-key"
+  process.env.RINKEBY_RPC_URL || process.env.RPC_URL_ALCHEMY_RINKEBY
 const KOVAN_RPC_URL =
   process.env.KOVAN_RPC_URL || "https://eth-kovan.alchemyapi.io/v2/your-api-key"
 const POLYGON_MAINNET_RPC_URL =
@@ -131,6 +130,9 @@ const config: HardhatUserConfig = {
         version: "0.8.7",
       },
       {
+        version: "0.8.0",
+      },
+      {
         version: "0.6.6",
       },
       {
@@ -139,7 +141,7 @@ const config: HardhatUserConfig = {
     ],
   },
   mocha: {
-    timeout: 200000, // 200 seconds max for running tests
+    timeout: 2000000, // 200 seconds max for running tests
   },
   typechain: {
     outDir: "typechain",
